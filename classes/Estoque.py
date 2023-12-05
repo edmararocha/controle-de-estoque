@@ -16,7 +16,7 @@ class Estoque:
 
     def __init__(self):
         self.__produtos = data
-        self.ordenar_lista(self.__produtos)
+        self.ordenar_estoque(self.__produtos)
 
     def __repr__(self):
         linhas = ["{:<3} | {:<10} | {:<9} | {:<10} | {:<10}".format(
@@ -44,16 +44,16 @@ class Estoque:
         if isinstance(produto, Produto):
             produto.set_id(len(self.__produtos)+1)
             self.__produtos.append(produto)
-            self.ordenar_lista(self.__produtos)
+            self.ordenar_estoque(self.__produtos)
 
-    def ordenar_lista(self, produtos):
+    def ordenar_estoque(self, produtos):
         if len(produtos) > 1:
             mid = len(produtos) // 2
             left = produtos[0:mid]
             right = produtos[mid:]
 
-            self.ordenar_lista(left)
-            self.ordenar_lista(right)
+            self.ordenar_estoque(left)
+            self.ordenar_estoque(right)
 
             i = 0
             j = 0

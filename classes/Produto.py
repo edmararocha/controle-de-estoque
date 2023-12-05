@@ -60,18 +60,19 @@ class Produto:
                 valor = float(valor) or int(valor)
                 return valor
             except ValueError:
-                valor = input("Por favor, digite um valor válido: ")
+                valor = input("Por favor, digite um valor válido: ")                
 
     def validar_data(self, data):
         while True:
             try:
                 if data is not None:
-                    data = datetime.strptime(data, "%d/%m/%Y").date()
-                print(data)
-                return data
-            except ValueError:
-                if data == "":
+                    data_formatada = datetime.strptime(data, "%d/%m/%Y").date()
+                    data_atual = datetime.now().date()
+                    if data_formatada > data_atual:
+                        return data_formatada
+                    else:
+                        data = input("Por favor, digite uma data posterior à data atual. ")
+                else:
                     return None
-                data = input(
-                    "Por favor, digite a data em um formato válido (Ex: 20/10/2024)")
-                
+            except ValueError:
+                data = input("Por favor, digite a data em um formato válido. (Ex: 20/10/2024) ")
