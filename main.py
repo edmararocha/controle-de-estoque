@@ -1,11 +1,6 @@
 from classes.Estoque import Estoque
 from classes.Produto import Produto
 
-
-global estoque
-estoque = Estoque()
-
-
 def menu():
     print("\n[1] Adicionar Produto")
     print("[2] Listar Produtos")
@@ -17,17 +12,21 @@ def menu():
 
     def adicionar_produto():
         print("Adicionar Produtos")
+
         produto = Produto()
         produto.set_nome(input("Digite o nome do produto:"))
         produto.set_valor(input("Digite o valor do produto:"))
         produto.set_quantidade(input("Digite a quantidade do produto:"))
-        produto.set_perecivel(input("Digite a data de vencimento:"))
+        print("\n** Caso o alimento for perecível digite sua data de vencimento, se não for clique ENTER **\n")
+        produto.set_data_de_vencimento(input("Digite a data de vencimento:"))
+        
         estoque.adicionar_produto(produto)
+
         print("\nProduto adicionado com sucesso!")
 
     def listar_produtos():
         print("Função Listar Produtos\n")
-        print(estoque)
+        print(estoque.__repr__())
 
     def cadastrar_venda():
         print("Função Cadastrar Venda")
@@ -56,5 +55,6 @@ def menu():
 
     menu()
 
-
+global estoque
+estoque = Estoque()
 menu()
