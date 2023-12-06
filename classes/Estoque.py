@@ -11,7 +11,6 @@ data = [
     Produto(5, "Laranja", 2.0, 20, datetime.date(2023, 12, 15))
 ]
 
-
 class Estoque:
 
     def __init__(self):
@@ -29,8 +28,9 @@ class Estoque:
             valor = produto.get_valor()
             quantidade = produto.get_quantidade()
             data = produto.get_data_de_vencimento()
+            print(data, nome)
 
-            if data is not None: 
+            if data is not None and data != "": 
                 data = data.strftime("%d/%m/%Y")
             else:
                 data = "----------"
@@ -81,11 +81,34 @@ class Estoque:
     def listar_produtos(self):
         return self.__repr__()
 
-    def buscar_produto(self, produto):
-        pass
+    def buscar_produto(self, id, inicio=0, fim=None):
+        if fim is None:
+            fim = len(self.__produtos) - 1
 
-    def atualizar_produto(self):
-        pass
+        if inicio > fim:
+            # O produto não foi encontrado
+            return None
+
+        meio = (inicio + fim) // 2
+        produto_meio = self.__produtos[meio]
+        id_meio = produto_meio.get_id()
+
+        if id == id_meio:
+            # Produto encontrado
+            return produto_meio
+        elif id < id_meio:
+            # Busca na metade à esquerda
+            return self.buscar_produto(id, inicio, meio - 1)
+        else:
+            # Busca na metade à direita
+            return self.buscar_produto(id, meio + 1, fim)
+
+    def atualizar_produto(self, id, nome=None, valor=None, quantidade=None, data_de_vencimento=None):
+        produto = self.buscar_produto(id)
+        if nome is not None: produto.set_nome(nome)
+        if valor is not None: produto.set_valor(valor)
+        if quantidade is not None: produto.set_quantidade(quantidade)
+        if data_de_vencimento is not None: produto.set_data_de_vencimento(data_de_vencimento)
 
     def excluir_produto(self):
         pass

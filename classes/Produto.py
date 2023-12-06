@@ -65,7 +65,7 @@ class Produto:
     def validar_data(self, data):
         while True:
             try:
-                if data is not None:
+                if data is not None and data.strip() != "":
                     data_formatada = datetime.strptime(data, "%d/%m/%Y").date()
                     data_atual = datetime.now().date()
                     if data_formatada > data_atual:
@@ -73,6 +73,6 @@ class Produto:
                     else:
                         data = input("Por favor, digite uma data posterior à data atual. ")
                 else:
-                    return None
+                    return data
             except ValueError:
                 data = input("Por favor, digite a data em um formato válido. (Ex: 20/10/2024) ")

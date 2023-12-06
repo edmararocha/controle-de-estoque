@@ -30,6 +30,8 @@ def menu():
 
     def cadastrar_venda():
         print("Função Cadastrar Venda")
+        print(estoque.__repr__())
+
 
     def gerar_relatorio_vendas():
         print("Função Gerar Relatório de Vendas")
