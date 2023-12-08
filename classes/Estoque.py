@@ -31,6 +31,7 @@ class Estoque:
             data = produto.get_data_de_vencimento()
 
             if data is not None and data != "":
+                data = datetime.strptime(data, "%d/%m/%Y").date()
                 data = data.strftime("%d/%m/%Y")
             else:
                 data = "----------"
