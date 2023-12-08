@@ -28,7 +28,6 @@ class Estoque:
             valor = produto.get_valor()
             quantidade = produto.get_quantidade()
             data = produto.get_data_de_vencimento()
-            print(data, nome)
 
             if data is not None and data != "": 
                 data = data.strftime("%d/%m/%Y")
@@ -82,6 +81,10 @@ class Estoque:
         return self.__repr__()
 
     def buscar_produto(self, id, inicio=0, fim=None):
+        for produto in self.__produtos:
+            if produto.get_id() == id:
+                return produto
+
         if fim is None:
             fim = len(self.__produtos) - 1
 
@@ -110,5 +113,11 @@ class Estoque:
         if quantidade is not None: produto.set_quantidade(quantidade)
         if data_de_vencimento is not None: produto.set_data_de_vencimento(data_de_vencimento)
 
-    def excluir_produto(self):
-        pass
+    def excluir_produto(self, id):
+        produto = self.buscar_produto(id)
+
+        if produto is not None:
+            self.__produtos.remove(produto)
+            print(f"Produto com ID {id} excluído com sucesso.")
+        else:
+            print(f"Produto com ID {id} não encontrado.")

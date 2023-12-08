@@ -1,7 +1,8 @@
 from classes.Estoque import Estoque
 from classes.Produto import Produto
+from classes.Venda import ControleDeVendas, Venda
 
-def menu():
+def exibir_menu():
     print("\n[1] Adicionar Produto")
     print("[2] Listar Produtos")
     print("[3] Cadastrar Venda")
@@ -11,7 +12,7 @@ def menu():
     opcao = input("\nEscolha uma opção:")
 
     def adicionar_produto():
-        print("Adicionar Produtos")
+        print("\nAdicionar Produtos\n")
 
         produto = Produto()
         produto.set_nome(input("Digite o nome do produto:"))
@@ -25,20 +26,25 @@ def menu():
         print("\nProduto adicionado com sucesso!")
 
     def listar_produtos():
-        print("Função Listar Produtos\n")
+        print("\nLista de Produtos\n")
         print(estoque.__repr__())
 
     def cadastrar_venda():
-        print("Função Cadastrar Venda")
         print(estoque.__repr__())
+        
+        venda = Venda()
+        venda.set_produto(input("\nDigite o ID do produto que deseja vender:"))
+        venda.set_quantidade(input("\nDigite a quantidade do produto:"))
+
+        venda.processar_venda(estoque, controle)
 
 
     def gerar_relatorio_vendas():
-        print("Função Gerar Relatório de Vendas")
-    # Chama recursivamente o menu em caso de opção inválida.    menu()if __name__ == '__main__':    menu()
-
+        print("\nRelatório de Vendas\n")
+        print(controle.gerar_relatorio_de_vendas())
+    
     def mostrar_controle_pereciveis():
-        print("Função Mostrar Controle dos Perecíveis")
+        print("\nControle dos Perecíveis\n")
 
     if opcao == '1':
         adicionar_produto()
@@ -51,12 +57,14 @@ def menu():
     elif opcao == '5':
         mostrar_controle_pereciveis()
     elif opcao == '0':
-        print("Saindo do programa. Até mais!")
+        print("\nSaindo do programa. Até mais!")
     else:
-        print("Opção inválida. Tente novamente.")
-
-    menu()
+        print("\nOpção inválida. Tente novamente.")
+    if opcao != '0':
+        exibir_menu()
 
 global estoque
 estoque = Estoque()
-menu()
+controle = ControleDeVendas()
+
+exibir_menu()
