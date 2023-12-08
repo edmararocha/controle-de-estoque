@@ -1,15 +1,16 @@
-import datetime
+from datetime import datetime
 from classes.Produto import Produto
 
 
 # Lista com dados base para utilizar as funções do sistema
 data = [
-    Produto(1, "Maçã", 2.5, 10, datetime.date(2023, 12, 31)),
-    Produto(2, "Banana", 1.5, 15, datetime.date(2023, 12, 25)),
-    Produto(3, "Uva", 4.0, 8, datetime.date(2023, 12, 20)),
-    Produto(4, "Abacaxi", 3.0, 12, datetime.date(2023, 12, 28)),
-    Produto(5, "Laranja", 2.0, 20, datetime.date(2023, 12, 15))
+    Produto(1, "Maçã", 2.5, 10, "31/12/2022"),
+    Produto(2, "Banana", 1.5, 15, "31/12/2023"),
+    Produto(3, "Uva", 4.0, 8, "31/12/2023"),
+    Produto(4, "Abacaxi", 3.0, 12, "31/12/2023"),
+    Produto(5, "Laranja", 2.0, 20, "31/12/2023")
 ]
+
 
 class Estoque:
 
@@ -29,7 +30,7 @@ class Estoque:
             quantidade = produto.get_quantidade()
             data = produto.get_data_de_vencimento()
 
-            if data is not None and data != "": 
+            if data is not None and data != "":
                 data = data.strftime("%d/%m/%Y")
             else:
                 data = "----------"
@@ -77,6 +78,39 @@ class Estoque:
                 j += 1
                 k += 1
 
+
+    def listar_pereciveis(self):
+        pereciveis = []
+        for produto in self.__produtos:
+            data = produto.get_data_de_vencimento()
+            if data is not None or data == "":
+                pereciveis.append(produto)
+
+        linhas = ["{:<3} | {:<10} | {:<10} | {:<10} | {:<4}".format(
+            "ID", "Produto", "Quantidade", "Data", "Prazo")]
+        linhas.append("-" * 55)
+
+        for produto in self.__produtos:
+            id = produto.get_id()
+            nome = produto.get_nome()
+            quantidade = produto.get_quantidade()
+            data = produto.get_data_de_vencimento()
+            
+            data_de_vencimento = datetime.strptime(data, "%d/%m/%Y").date()
+            data_atual = datetime.now().date()
+
+            prazo = (data_de_vencimento - data_atual).days
+
+            if prazo < 0:
+                prazo = "VENCIDO"
+            else:
+                prazo = str(prazo) + " dias"
+
+            linhas.append("{:<3} | {:<10} | {:<10} | {:<10} | {:<4}".format(
+                id, nome, quantidade, data, prazo))
+
+        return "\n".join(linhas)
+
     def listar_produtos(self):
         return self.__repr__()
 
@@ -108,10 +142,14 @@ class Estoque:
 
     def atualizar_produto(self, id, nome=None, valor=None, quantidade=None, data_de_vencimento=None):
         produto = self.buscar_produto(id)
-        if nome is not None: produto.set_nome(nome)
-        if valor is not None: produto.set_valor(valor)
-        if quantidade is not None: produto.set_quantidade(quantidade)
-        if data_de_vencimento is not None: produto.set_data_de_vencimento(data_de_vencimento)
+        if nome is not None:
+            produto.set_nome(nome)
+        if valor is not None:
+            produto.set_valor(valor)
+        if quantidade is not None:
+            produto.set_quantidade(quantidade)
+        if data_de_vencimento is not None:
+            produto.set_data_de_vencimento(data_de_vencimento)
 
     def excluir_produto(self, id):
         produto = self.buscar_produto(id)

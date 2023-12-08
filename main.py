@@ -45,6 +45,7 @@ def exibir_menu():
     
     def mostrar_controle_pereciveis():
         print("\nControle dos Perecíveis\n")
+        print(estoque.listar_pereciveis())
 
     if opcao == '1':
         adicionar_produto()
